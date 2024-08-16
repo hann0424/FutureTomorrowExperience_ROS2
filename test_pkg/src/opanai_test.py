@@ -3,7 +3,7 @@ from pathlib import Path
 
 client = OpenAI()
 
-audio_file= open("/home/jty6109/robot_ws/src/FutureTomorrowExperience_ROS2/test_pkg/src/question.mp3", "rb")
+audio_file= open("/home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/test_pkg/src/question.mp3", "rb")
 transcription = client.audio.transcriptions.create(
   model="whisper-1",
   file=audio_file
