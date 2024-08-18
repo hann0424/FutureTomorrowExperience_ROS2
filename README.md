@@ -2,6 +2,12 @@
 
 # openai 음성 대화 로봇
 
+* 개발환경
+  1. ubuntu linux 22.04
+  2. turtlebot3
+  3. raspberry pi 3
+  4. ros2 humble
+
 ---------------------------------------------
 8/16(금)
 
