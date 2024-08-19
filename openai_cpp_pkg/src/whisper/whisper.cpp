@@ -21,7 +21,7 @@ void Whisper::openai_whisper()
     {
         auto transcription = openai::audio().transcribe(R"(
             {
-            "file": "/home/jty6109/robot_ws/src/FutureTomorrowExperience_ROS2/openai_cpp_pkg/audio/question.mp3",
+            "file": "/home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/openai_cpp_pkg/audio/question.mp3",
             "model": "whisper-1"
             }
         )"_json);
