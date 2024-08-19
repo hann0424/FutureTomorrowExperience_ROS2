@@ -4,7 +4,7 @@ Whisper::Whisper()
     : Node("whisper_node")
 {
      auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(10));
-    _question_pub = this->create_publisher<std_msgs::msg::String>("pub_question", qos_profile);
+    _question_pub = this->create_publisher<std_msgs::msg::String>("pub_whisper", qos_profile);
     _timer = this->create_wall_timer(1s, std::bind(&Whisper::publish_question, this));
 }
 
