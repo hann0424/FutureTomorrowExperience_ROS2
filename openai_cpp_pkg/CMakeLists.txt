@@ -20,9 +20,13 @@ include_directories(audio)
 add_executable(whisper src/whisper/whisper.cpp src/whisper/main.cpp)
 ament_target_dependencies(whisper rclcpp std_msgs CURL)
 
+add_executable(question_bridge src/robot_node/question_bridge.cpp)
+ament_target_dependencies(question_bridge rclcpp std_msgs )
+
 #install
 install(TARGETS
   whisper
+  question_bridge
   DESTINATION lib/${PROJECT_NAME}
 )
 
