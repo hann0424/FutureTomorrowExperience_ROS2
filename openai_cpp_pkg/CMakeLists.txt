@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(CURL REQUIRED)
+find_package(openai_interface REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -18,7 +19,7 @@ include_directories(include)
 include_directories(audio)
 
 add_executable(whisper src/whisper/whisper.cpp src/whisper/main.cpp)
-ament_target_dependencies(whisper rclcpp std_msgs CURL)
+ament_target_dependencies(whisper rclcpp std_msgs openai_interface CURL)
 
 add_executable(question_bridge src/robot_node/question_bridge.cpp)
 ament_target_dependencies(question_bridge rclcpp std_msgs )
