@@ -28,12 +28,17 @@ ament_target_dependencies(answer_bridge rclcpp std_msgs )
 
 add_executable(chat_gpt src/client_node/chat_gpt.cpp)
 ament_target_dependencies(chat_gpt rclcpp std_msgs CURL)
+
+add_executable(time src/client_node/time.cpp)
+ament_target_dependencies(time rclcpp std_msgs)
+
 #install
 install(TARGETS
   whisper
   question_bridge
   answer_bridge
   chat_gpt
+  time
   DESTINATION lib/${PROJECT_NAME}
 )
 
