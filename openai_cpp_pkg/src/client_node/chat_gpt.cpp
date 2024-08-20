@@ -20,7 +20,7 @@ void Gpt::gpt(const std::string str)
     nlohmann::json jsonObj = R"(
     {
         "model": "gpt-4o",
-        "max_tokens": 7,
+        "max_tokens": 1000,
         "temperature": 0
     }
     )"_json;

@@ -18,6 +18,7 @@ private:
     std_msgs::msg::String _question_msg;
     void send_request();
     void openai_whisper();
+    void response_callback(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future);
 public:
     Whisper();
 };
