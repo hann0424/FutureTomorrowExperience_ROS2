@@ -1,21 +1,21 @@
 #include "openai_cpp_pkg/chat_gpt.hpp"
 
+
 Gpt::Gpt()
     : Node("gpt_node")
 {
-    auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(10));
-    _sub_question = this->create_subscription<std_msgs::msg::String>("pub_question", qos_profile,
-        std::bind(&Gpt::sub_question_msg, this, std::placeholders::_1));
+    _service = this->create_service<openai_interface::srv::QaInterface>("question",
+        std::bind(&Gpt::callback, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void Gpt::sub_question_msg(const std_msgs::msg::String::SharedPtr msg)
+void Gpt::callback(const openai_interface::srv::QaInterface::Request::SharedPtr request,
+    openai_interface::srv::QaInterface::Response::SharedPtr response)
 {
-    _question_gpt = msg->data;
-    gpt(_question_gpt);
-
+    gpt(request->question);
+    response->answer = _answer;
 }
 
-void Gpt::gpt(std::string question)
+void Gpt::gpt(const std::string str)
 {
     nlohmann::json jsonObj = R"(
     {
@@ -27,7 +27,7 @@ void Gpt::gpt(std::string question)
 
     jsonObj["messages"].push_back({
         {"role", "user"},
-        {"content", question}
+        {"content", str}
     });
 
     openai::start();
@@ -39,6 +39,7 @@ void Gpt::gpt(std::string question)
         nlohmann::json json_result = nlohmann::json::parse(str);  // chat이 JSON 문자열인지 확인 필요
         std::string content = json_result["choices"][0]["message"]["content"];
         std::cout << "content: " << content << std::endl;
+        _answer = content;
     } catch (const std::exception& e) {
         std::cerr << "JSON 파싱 에러: " << e.what() << std::endl;
     }

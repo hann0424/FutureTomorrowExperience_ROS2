@@ -28,7 +28,7 @@ add_executable(answer_bridge src/robot_node/answer_bridge.cpp)
 ament_target_dependencies(answer_bridge rclcpp std_msgs )
 
 add_executable(chat_gpt src/client_node/chat_gpt.cpp)
-ament_target_dependencies(chat_gpt rclcpp std_msgs CURL)
+ament_target_dependencies(chat_gpt rclcpp std_msgs CURL openai_interface)
 
 add_executable(time src/client_node/time.cpp)
 ament_target_dependencies(time rclcpp std_msgs)
