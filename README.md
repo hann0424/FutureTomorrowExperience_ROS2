@@ -107,4 +107,7 @@
   3) openai cpp git 페이지에서 .hpp파일 다운로드후 프로잭트 패키지에 추가
     https://github.com/olrea/openai-cpp/tree/main/include/openai
 
+- Portaudio Install
+  1) sudo apt-get install portaudio19-dev
+
 ---------------------------------------------
