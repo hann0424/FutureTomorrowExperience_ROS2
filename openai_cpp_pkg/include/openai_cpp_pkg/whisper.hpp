@@ -13,9 +13,14 @@ using namespace std::chrono_literals;
 class Whisper : public rclcpp::Node
 {
 private:
-    rclcpp::Client<openai_interface::srv::QaInterface>::SharedPtr client_;
-    rclcpp::TimerBase::SharedPtr _timer;
+    rclcpp::Client<openai_interface::srv::QaInterface>::SharedPtr _client_bridge;
+    rclcpp::Service<openai_interface::srv::QaInterface>::SharedPtr _service_mic;
+    //rclcpp::TimerBase::SharedPtr _timer;
     std_msgs::msg::String _question_msg;
+    std::string _response_bridge;
+    bool status;
+    void callback_mic(const openai_interface::srv::QaInterface::Request::SharedPtr request,
+        openai_interface::srv::QaInterface::Response::SharedPtr response);
     void send_request();
     void openai_whisper();
     void response_callback(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future);
