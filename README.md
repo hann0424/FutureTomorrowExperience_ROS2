@@ -15,6 +15,20 @@
   
 ---------------------------------------------
 8/21(수)
+- 작업 내용
+  - 1. turtlebot3에 test_cpp_pkg 만들어져 있음 -> 마이크/스피커 테스트 해당 패키지에서 진행
+  - 2. 마이크 테스트
+    - 1. 마이크 음성 입력 받아서 음성파일로 저장
+    - 2. Vsok라이브러리(cpp 오프라인 stt) 사용법 알아보기, 다른 라이브러리 있는지?
+    - 3. 특정 키워드의 음성입력을 받았을때 음성 답변 (stt라이브러리 사용)
+  - 3. 노드 작성
+    - 1. whisper, mic 노드 분리
+      - mic 노드는 음성입력 식별하는 로직 -> 음성저장 후 whisper에게 request
+      - whisper노드는 mic에게 request받으면 callback에서 audio->텍스트 변환 후 bridge에 request
+    - 2. bridge 노드 작성
+      - whisper에 request받으면 gpt에 request 후 response받으면 tts에 request
+    - 3. speaker노드 작성
+      - mic가 whisper에 response받으면 speaker에 request(영상 재생)
 - 오전
 - 오후
 ---------------------------------------------
