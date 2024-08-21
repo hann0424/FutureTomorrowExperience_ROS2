@@ -18,6 +18,7 @@ private:
 
     std::string _gpt_question;
     std::string _gpt_answer;
+    std::string _tts_answer;
     bool _status;
 
     void send_request_gpt();

@@ -19,7 +19,7 @@ void Bridge::callback_whisper(const openai_interface::srv::QaInterface::Request:
     while (_status == true) {}
     send_request_tts();
     while (_status == true) {}
-    response->answer = "음성 파일 저장 완료";
+    response->answer = _tts_answer;
 }
 
 void Bridge::send_request_gpt()
@@ -70,7 +70,7 @@ void Bridge::response_callback_tts(rclcpp::Client<openai_interface::srv::QaInter
 {
     try {
         auto result = future.get();  // 응답 대기
-        _gpt_answer = result->answer;
+        _tts_answer = result->answer;
         RCLCPP_INFO(get_logger(), "응답 메시지: %s", result->answer.c_str());  // 응답 필드 사용
     } catch (const std::exception &e) {
         RCLCPP_ERROR(get_logger(), "서비스 요청 중 오류 발생: %s", e.what());
