@@ -19,6 +19,7 @@ void Bridge::callback_whisper(const openai_interface::srv::QaInterface::Request:
     while (_status == true) {}
     send_request_tts();
     while (_status == true) {}
+    response->answer = "음성 파일 저장 완료";
 }
 
 void Bridge::send_request_gpt()

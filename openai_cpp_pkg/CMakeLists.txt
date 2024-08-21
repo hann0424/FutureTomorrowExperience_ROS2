@@ -33,6 +33,9 @@ ament_target_dependencies(chat_gpt rclcpp std_msgs CURL openai_interface)
 add_executable(time src/client_node/time.cpp)
 ament_target_dependencies(time rclcpp std_msgs)
 
+add_executable(bridge src/client_node/bridge.cpp)
+ament_target_dependencies(bridge rclcpp std_msgs openai_interface)
+
 #install
 install(TARGETS
   whisper
@@ -40,6 +43,7 @@ install(TARGETS
   answer_bridge
   chat_gpt
   time
+  bridge
   DESTINATION lib/${PROJECT_NAME}
 )
 
