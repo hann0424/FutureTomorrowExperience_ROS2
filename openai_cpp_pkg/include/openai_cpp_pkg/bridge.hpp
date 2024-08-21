@@ -14,6 +14,7 @@ class Bridge : public rclcpp::Node {
 private:
     rclcpp::Service<openai_interface::srv::QaInterface>::SharedPtr _service_whisper; //whisper에 request에 response
     rclcpp::Client<openai_interface::srv::QaInterface>::SharedPtr _client_gpt;
+    rclcpp::Client<openai_interface::srv::QaInterface>::SharedPtr _client_tts;
 
     std::string _gpt_question;
     std::string _gpt_answer;

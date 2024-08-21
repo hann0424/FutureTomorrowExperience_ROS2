@@ -51,6 +51,7 @@ void Whisper::callback_mic(const openai_interface::srv::QaInterface::Request::Sh
 {
     status = true;
     send_request();
+    std::string str = request->question; //이부분 수정
     response->answer = _response_bridge;
 }
 
