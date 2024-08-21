@@ -108,6 +108,6 @@
     https://github.com/olrea/openai-cpp/tree/main/include/openai
 
 - Portaudio Install
-  1) sudo apt-get install portaudio19-dev
-
+1) sudo apt-get install portaudio19-dev
+2) colcon build --symlink-install --packages-select openai_interface
 ---------------------------------------------
