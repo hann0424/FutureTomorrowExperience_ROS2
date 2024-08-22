@@ -15,10 +15,10 @@ private:
     rclcpp::Service<openai_interface::srv::QaInterface>::SharedPtr _service;
     std::string _answer;
     void callback(const openai_interface::srv::QaInterface::Request::SharedPtr request,
-    openai_interface::srv::QaInterface::Response::SharedPtr response);
+        openai_interface::srv::QaInterface::Response::SharedPtr response);
 
     void gpt(const std::string str);
-    
+
 public:
     Gpt();
 };

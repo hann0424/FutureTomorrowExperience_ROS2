@@ -6,20 +6,27 @@ Whisper::Whisper()
     : Node("whisper_node")
 {
     _client_bridge = this->create_client<openai_interface::srv::QaInterface>("bridge");
-    _service_mic = this->create_service<openai_interface::srv::QaInterface>("mic",
+    _service_mic = this->create_service<openai_interface::srv::QaInterface>("whisper",
         std::bind(&Whisper::callback_mic, this, std::placeholders::_1, std::placeholders::_2));
-    status = false;
+    _status = false;
     // 타이머 설정 (15초마다 서비스 요청)
     //_timer = this->create_wall_timer(5s, std::bind(&Whisper::send_request, this));
 }
 
+void Whisper::response_callback_whisper_thread(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future)
+{
+     std::thread{std::bind(&Whisper::response_callback, this, std::placeholders::_1), future}.detach();
+}
+
 void Whisper::send_request()
 {
+    _status = true;
+    RCLCPP_INFO(get_logger(), "test2");
     openai_whisper();
 
     // 서비스 요청 객체 생성 (QaInterface 사용)
     auto request = std::make_shared<openai_interface::srv::QaInterface::Request>();
-    request->question = _question_msg.data;  // 요청 필드에 전사된 텍스트 저장
+    request->question = _question_msg;  // 요청 필드에 전사된 텍스트 저장
 
     // 서비스가 준비될 때까지 기다림
     if (!_client_bridge->wait_for_service(15s)) {
@@ -29,7 +36,7 @@ void Whisper::send_request()
 
     // 비동기 방식으로 서비스 요청 전송
     auto result_future = _client_bridge->async_send_request(
-        request, std::bind(&Whisper::response_callback, this,
+        request, std::bind(&Whisper::response_callback_whisper_thread, this,
         std::placeholders::_1));
 }
 
@@ -44,12 +51,14 @@ void Whisper::response_callback(rclcpp::Client<openai_interface::srv::QaInterfac
     } catch (const std::exception &e) {
         RCLCPP_ERROR(get_logger(), "서비스 요청 중 오류 발생: %s", e.what());
     }
+
+    _status = false;
 }
 
 void Whisper::callback_mic(const openai_interface::srv::QaInterface::Request::SharedPtr request,
     openai_interface::srv::QaInterface::Response::SharedPtr response)
 {
-    status = true;
+    RCLCPP_INFO(get_logger(), "test");
     send_request();
     std::string str = request->question; //이부분 수정
     response->answer = _response_bridge;
@@ -66,5 +75,5 @@ void Whisper::openai_whisper()
         }
     )"_json);
 
-    _question_msg.data = transcription["text"];
+    _question_msg = transcription["text"];
 }

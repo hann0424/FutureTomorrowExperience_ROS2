@@ -6,6 +6,7 @@
 #include "openai/openai.hpp"
 #include "openai_interface/srv/qa_interface.hpp"
 #include <chrono>
+#include <thread>
 
 using namespace std;
 using namespace std::chrono_literals;
@@ -22,6 +23,7 @@ private:
     bool _status;
 
     void send_request_gpt();
+    void response_callback_gpt_thread(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future);
     void send_request_tts();
     void response_callback_gpt(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future);
     void response_callback_tts(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future);

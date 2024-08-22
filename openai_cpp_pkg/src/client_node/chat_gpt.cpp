@@ -4,7 +4,7 @@
 Gpt::Gpt()
     : Node("gpt_node")
 {
-    _service = this->create_service<openai_interface::srv::QaInterface>("question",
+    _service = this->create_service<openai_interface::srv::QaInterface>("gpt",
         std::bind(&Gpt::callback, this, std::placeholders::_1, std::placeholders::_2));
 }
 

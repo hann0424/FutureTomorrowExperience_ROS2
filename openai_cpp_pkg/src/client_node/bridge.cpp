@@ -14,12 +14,16 @@ Bridge::Bridge()
 void Bridge::callback_whisper(const openai_interface::srv::QaInterface::Request::SharedPtr request,
     openai_interface::srv::QaInterface::Response::SharedPtr response) {
 
+    RCLCPP_INFO(get_logger(), "request bridge");
     _gpt_question = request->question;
     send_request_gpt();
-    while (_status == true) {}
-    send_request_tts();
-    while (_status == true) {}
     response->answer = _tts_answer;
+}
+
+void Bridge::response_callback_gpt_thread(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future)
+{
+    RCLCPP_INFO(get_logger(), "open thread");
+    std::thread{std::bind(&Bridge::response_callback_gpt, this, std::placeholders::_1), future}.detach();
 }
 
 void Bridge::send_request_gpt()
@@ -34,20 +38,21 @@ void Bridge::send_request_gpt()
     }
 
     auto result_future = _client_gpt->async_send_request(
-        request, std::bind(&Bridge::response_callback_gpt, this,
+        request, std::bind(&Bridge::response_callback_gpt_thread, this,
         std::placeholders::_1));
 }
 
 void Bridge::response_callback_gpt(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future)
 {
     try {
+        RCLCPP_INFO(get_logger(), "bridge test");
         auto result = future.get();  // 응답 대기
         _gpt_answer = result->answer;
         RCLCPP_INFO(get_logger(), "응답 메시지: %s", result->answer.c_str());  // 응답 필드 사용
     } catch (const std::exception &e) {
         RCLCPP_ERROR(get_logger(), "서비스 요청 중 오류 발생: %s", e.what());
     }
-    _status = false;
+    send_request_tts();
 }
 
 void Bridge::send_request_tts()
