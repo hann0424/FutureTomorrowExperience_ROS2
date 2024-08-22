@@ -14,7 +14,7 @@ public:
         // 퍼블리셔 설정
         publisher_ = this->create_publisher<std_msgs::msg::String>("whisper_topic", 10);
 
-        // 타이머 설정 (1초마다 publish 수행)
+        // 타이머 설정 (30초마다 publish 수행)
         timer_ = this->create_wall_timer(
             30s, std::bind(&WhisperPublisher::publish_message, this));
     }
