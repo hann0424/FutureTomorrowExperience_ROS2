@@ -18,7 +18,7 @@ class Tts(Node):
     def tts_answer(self):
         print("tts start22")
         self.client = OpenAI()
-        speech_file_path = Path("/home/jty6109/robot_ws/src/FutureTomorrowExperience_ROS2/result_audio/answer.flac")
+        speech_file_path = Path("/home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/result_audio/answer.wav")
         response = self.client.audio.speech.create(
         model="tts-1",
         voice="alloy",

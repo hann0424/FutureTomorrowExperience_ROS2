@@ -58,7 +58,7 @@ void Whisper::response_callback(rclcpp::Client<openai_interface::srv::QaInterfac
 void Whisper::callback_mic(const openai_interface::srv::QaInterface::Request::SharedPtr request,
     openai_interface::srv::QaInterface::Response::SharedPtr response)
 {
-    RCLCPP_INFO(get_logger(), "test");
+    RCLCPP_INFO(get_logger(), "test");               
     send_request();
     std::string str = request->question; //이부분 수정
     response->answer = _response_bridge;
@@ -69,7 +69,7 @@ void Whisper::openai_whisper()
     openai::start();
     auto transcription = openai::audio().transcribe(R"(
         {
-        "file": "/home/jty6109/robot_ws/src/FutureTomorrowExperience_ROS2/openai_cpp_pkg/audio/question.mp3",
+        "file": "/home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/openai_cpp_pkg/audio/question.mp3",
         "model": "whisper-1",
         "prompt": "question"
         }

@@ -5,10 +5,12 @@
 #include "std_msgs/msg/string.hpp"
 #include "openai/openai.hpp"
 #include "openai_interface/srv/qa_interface.hpp"
+#include <cstdlib>
+#include <sys/stat.h>
 #include <cerrno>
 #include <chrono>
 #include <SFML/Audio.hpp>
-#include <sys/stat.h>
+
 
 using namespace std;
 using namespace std::chrono_literals;
