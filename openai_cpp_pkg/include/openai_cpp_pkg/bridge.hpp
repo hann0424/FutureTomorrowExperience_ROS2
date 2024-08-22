@@ -16,6 +16,7 @@ private:
     rclcpp::Service<openai_interface::srv::QaInterface>::SharedPtr _service_whisper; //whisper에 request에 response
     rclcpp::Client<openai_interface::srv::QaInterface>::SharedPtr _client_gpt;
     rclcpp::Client<openai_interface::srv::QaInterface>::SharedPtr _client_tts;
+    rclcpp::Client<openai_interface::srv::QaInterface>::SharedPtr _client_speaker;
 
     std::string _gpt_question;
     std::string _gpt_answer;
@@ -24,9 +25,11 @@ private:
 
     void send_request_gpt();
     void response_callback_gpt_thread(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future);
-    void send_request_tts();
     void response_callback_gpt(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future);
+    void send_request_tts();
     void response_callback_tts(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future);
+    void send_request_speaker();
+    void response_callback_speaker(rclcpp::Client<openai_interface::srv::QaInterface>::SharedFuture future);
     void callback_whisper(const openai_interface::srv::QaInterface::Request::SharedPtr request,
         openai_interface::srv::QaInterface::Response::SharedPtr response);
     

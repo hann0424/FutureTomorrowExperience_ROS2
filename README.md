@@ -108,6 +108,10 @@
 ---------------------------------------------
 # 개발 내용 정리
 - 라이브러리 설치등 내용 정리
+
+- clone 후 build 실패(openai_interface 못찾는 오류)시
+  - 1. colcon build --symlink-install --packages-select openai_interface
+  - 2. 후에 colcon build
   
 1. openai c++라이브러리 사용하여 구현
   - libcurl
@@ -121,5 +125,7 @@
 
 - Portaudio Install
 1) sudo apt-get install portaudio19-dev
-2) colcon build --symlink-install --packages-select openai_interface
+
+- SFML 라이브러리 (cpp 오디오 라이브러리)
+  - sudo apt-get install libsfml-dev
 ---------------------------------------------

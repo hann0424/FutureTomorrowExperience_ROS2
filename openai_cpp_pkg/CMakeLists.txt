@@ -11,12 +11,15 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(CURL REQUIRED)
 find_package(openai_interface REQUIRED)
+find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
 include_directories(include)
 include_directories(audio)
+
+
 
 add_executable(whisper src/whisper/whisper.cpp src/whisper/main.cpp)
 ament_target_dependencies(whisper rclcpp std_msgs openai_interface CURL)
@@ -36,6 +39,16 @@ ament_target_dependencies(time rclcpp std_msgs)
 add_executable(bridge src/client_node/bridge.cpp)
 ament_target_dependencies(bridge rclcpp std_msgs openai_interface)
 
+add_executable(speaker src/robot_node/speaker.cpp)
+ament_target_dependencies(speaker rclcpp std_msgs openai_interface SFML)
+
+target_link_libraries(speaker
+  sfml-system
+  sfml-window
+  sfml-graphics
+  sfml-audio  # 오디오 라이브러리 추가
+)
+
 #install
 install(TARGETS
   whisper
@@ -44,6 +57,7 @@ install(TARGETS
   chat_gpt
   time
   bridge
+  speaker
   DESTINATION lib/${PROJECT_NAME}
 )
 
