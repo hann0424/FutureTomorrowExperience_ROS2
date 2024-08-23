@@ -14,6 +14,23 @@
   * 정태양 : client 노드 구현(openai, pyqt)
 
 ---------------------------------------------
+8/23(금)
+- mic 노드 작성
+  - CmakeLists파일
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(ALSA REQUIRED alsa)
+
+    target_link_libraries(mic
+      ${ALSA_LIBRARIES}
+    )
+
+    target_include_directories(mic PUBLIC
+      ${ALSA_INCLUDE_DIRS}
+    )
+  - hpp파일
+    - #include <alsa/asoundlib.h>
+
+---------------------------------------------
 8/22(목)
 - 작업 내용
   - 1. mic, speaker 노드 작성
@@ -29,6 +46,8 @@
     * 음성 파일 재생 문제 해결
       * speaker.cpp 13 ~ 22번 라인
       * chmod로 실행권한 설정하고 ffmpeg로 SFML 라이브러리가 사용가능한 포맷으로 변경
+      * #include <cstdlib> 의 system함수 사용하여 오디오 파일 포맷 변경
+      * #include <sys/stat.h> 파일 속성 및 파일 권한을 조작하기 위해 사용되는 시스템 호출들을 정의하는 헤더 파일
       * 오디오 재생 안될 경우 노드 실행 전에
       * sudo fuser -v /dev/snd/*
       * sudo kill -9 PID
@@ -120,7 +139,7 @@
 - clone 후 build 실패(openai_interface 못찾는 오류)시
   - 1. colcon build --symlink-install --packages-select openai_interface
   - 2. 후에 colcon build
-  
+
 1. openai c++라이브러리 사용하여 구현
   - libcurl
   1) libcurl 설치
@@ -136,4 +155,10 @@
 
 - SFML 라이브러리 (cpp 오디오 라이브러리)
   - sudo apt-get install libsfml-dev
+
+- ALSA 라이브러리 설치 (cpp 마이크 라이브러리)
+  - sudo apt-get install libasound2-dev
+
+- ffmpeg 라이브러리 설치 (파일 포맷 변환 라이브러리)
+  - sudo apt install ffmpeg
 ---------------------------------------------
