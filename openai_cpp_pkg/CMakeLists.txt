@@ -12,6 +12,8 @@ find_package(std_msgs REQUIRED)
 find_package(CURL REQUIRED)
 find_package(openai_interface REQUIRED)
 find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(ALSA REQUIRED alsa)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -42,11 +44,22 @@ ament_target_dependencies(bridge rclcpp std_msgs openai_interface)
 add_executable(speaker src/robot_node/speaker.cpp)
 ament_target_dependencies(speaker rclcpp std_msgs openai_interface SFML)
 
+add_executable(mic src/robot_node/mic.cpp)
+ament_target_dependencies(mic rclcpp std_msgs openai_interface)
+
 target_link_libraries(speaker
   sfml-system
   sfml-window
   sfml-graphics
   sfml-audio  # 오디오 라이브러리 추가
+)
+
+target_link_libraries(mic
+  ${ALSA_LIBRARIES}
+)
+
+target_include_directories(mic PUBLIC
+  ${ALSA_INCLUDE_DIRS}
 )
 
 #install
@@ -58,6 +71,7 @@ install(TARGETS
   time
   bridge
   speaker
+  mic
   DESTINATION lib/${PROJECT_NAME}
 )
 

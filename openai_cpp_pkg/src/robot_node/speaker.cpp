@@ -10,10 +10,17 @@ Speaker::Speaker()
 void Speaker::callback_speaker(const openai_interface::srv::QaInterface::Request::SharedPtr request,
         openai_interface::srv::QaInterface::Response::SharedPtr response)
 {
+    const char* command = "ffmpeg -y -i /home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/result_audio/answer.wav -acodec pcm_s16le -ar 44100 -ac 2 /home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/result_audio/answer2.wav";
+    const char* filePath2 = "/home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/result_audio/answer2.wav";
     const char* filePath = "/home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/result_audio/answer.wav";
-    const char* command = "ffmpeg -y -i /home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/result_audio/answer.wav -acodec pcm_s16le -ar 44100 -ac 2 answer2.wav";
-    
+
     if (chmod(filePath, S_IRUSR | S_IWUSR | S_IXUSR) == -1) {
+        std::cerr << "Error changing file permissions: " << strerror(errno) << std::endl;
+    } else {
+        std::cout << "Permissions changed successfully for " << filePath << std::endl;
+    }
+
+    if (chmod(filePath2, S_IRUSR | S_IWUSR | S_IXUSR) == -1) {
         std::cerr << "Error changing file permissions: " << strerror(errno) << std::endl;
     } else {
         std::cout << "Permissions changed successfully for " << filePath << std::endl;
