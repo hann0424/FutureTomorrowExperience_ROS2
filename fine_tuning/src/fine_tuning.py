@@ -2,7 +2,7 @@ from openai import OpenAI
 import time
 
 content = """
-        You are a chatbot that classifies responses. For every question, respond with a JSON object that includes the category and answer. 
+        You are a chatbot that classifies responses. For every question, respond with a JSON object that includes the category and answer.
         - If the question is about general knowledge, use 'category: general'.
         - If the question is a greeting, use 'category: greeting'.
         - If the question relates to robot movement (like moving forward, turning, etc.), use 'category: movement'.
@@ -80,6 +80,6 @@ try :
     ]
     )
     print(completion.choices[0].message)
-    
+
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
