@@ -8,7 +8,8 @@ Bridge::Bridge()
     _client_gpt = this->create_client<openai_interface::srv::QaInterface>("gpt");
     _client_tts = this->create_client<openai_interface::srv::QaInterface>("tts");
     _client_speaker = this->create_client<openai_interface::srv::QaInterface>("speaker");
-    _status = false;
+
+    //_status = false;
 }
 
 void Bridge::callback_whisper(const openai_interface::srv::QaInterface::Request::SharedPtr request,
@@ -28,7 +29,7 @@ void Bridge::response_callback_gpt_thread(rclcpp::Client<openai_interface::srv::
 
 void Bridge::send_request_gpt()
 {
-    _status = true;
+    //_status = true;
     auto request = std::make_shared<openai_interface::srv::QaInterface::Request>();
     request->question = _gpt_question;
 
@@ -52,12 +53,16 @@ void Bridge::response_callback_gpt(rclcpp::Client<openai_interface::srv::QaInter
     } catch (const std::exception &e) {
         RCLCPP_ERROR(get_logger(), "서비스 요청 중 오류 발생: %s", e.what());
     }
-    send_request_tts();
+    if (_gpt_answer == "movement") {
+
+    } else {
+        send_request_tts();
+    }
 }
 
 void Bridge::send_request_tts()
 {
-    _status = true;
+    //_status = true;
     auto request = std::make_shared<openai_interface::srv::QaInterface::Request>();
     request->question = _gpt_answer;
 
@@ -80,7 +85,7 @@ void Bridge::response_callback_tts(rclcpp::Client<openai_interface::srv::QaInter
     } catch (const std::exception &e) {
         RCLCPP_ERROR(get_logger(), "서비스 요청 중 오류 발생: %s", e.what());
     }
-    _status = false;
+    //_status = false;
     send_request_speaker();
 }
 

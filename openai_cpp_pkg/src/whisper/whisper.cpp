@@ -58,7 +58,7 @@ void Whisper::response_callback(rclcpp::Client<openai_interface::srv::QaInterfac
 void Whisper::callback_mic(const openai_interface::srv::QaInterface::Request::SharedPtr request,
     openai_interface::srv::QaInterface::Response::SharedPtr response)
 {
-    RCLCPP_INFO(get_logger(), "test");               
+    RCLCPP_INFO(get_logger(), "test");
     send_request();
     std::string str = request->question; //이부분 수정
     response->answer = _response_bridge;
@@ -76,4 +76,5 @@ void Whisper::openai_whisper()
     )"_json);
 
     _question_msg = transcription["text"];
+    RCLCPP_INFO(get_logger(), "음성 질문 : %s", _question_msg);
 }
