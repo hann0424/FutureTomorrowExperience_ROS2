@@ -18,7 +18,7 @@ void Gpt::callback(const openai_interface::srv::QaInterface::Request::SharedPtr 
     openai_interface::srv::QaInterface::Response::SharedPtr response)
 {
 
-    egpt(request->question);
+    gpt(request->question);
 
     std::string keyword = "movemnt";
     std::string str= _answer;
