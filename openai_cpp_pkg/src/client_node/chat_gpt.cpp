@@ -18,9 +18,9 @@ void Gpt::callback(const openai_interface::srv::QaInterface::Request::SharedPtr 
     openai_interface::srv::QaInterface::Response::SharedPtr response)
 {
 
-    gpt(request->question);
+    egpt(request->question);
 
-    std::string keyword = "movement";
+    std::string keyword = "movemnt";
     std::string str= _answer;
 
     if (str.find(keyword) != std::string::npos) {
@@ -92,7 +92,7 @@ void Gpt::gpt(const std::string str)
 void Gpt::publish_turtlesim_msg()
 {
     auto msg = geometry_msgs::msg::Twist();
-    msg.linear.x = 0.0;
+    msg.linear.x = _x_val;
 
     _pub->publish(msg);
 }
