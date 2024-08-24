@@ -1,0 +1,14 @@
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "뒤로 가"}, {"role": "assistant", "content": "x : -50, z : -50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "뒤로 이동"}, {"role": "assistant", "content": "x : -50, z : -50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "후진"}, {"role": "assistant", "content": "x : -50, z : -50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "앞으로 가"}, {"role": "assistant", "content": "x : 50, z : 50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "앞으로 이동"}, {"role": "assistant", "content": "x : 50, z : 50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "전진"}, {"role": "assistant", "content": "x : 50, z : 50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "왼쪽으로 가"}, {"role": "assistant", "content": "x : 0, z : -50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "오른쪽으로 가"}, {"role": "assistant", "content": "x : 0, z : 50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "왼쪽으로"}, {"role": "assistant", "content": "x : 0, z : -50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "오른쪽으로"}, {"role": "assistant", "content": "x : 0, z : 50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "좌회전"}, {"role": "assistant", "content": "x : 0, z : -50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "우회전"}, {"role": "assistant", "content": "x : 0, z : 50"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "정지"}, {"role": "assistant", "content": "x : 0, z : 0"}]}
+{"messages": [{"role": "system", "content": "Marv is a chatbot that helps control robot movement."}, {"role": "user", "content": "멈춰"}, {"role": "assistant", "content": "x : 0, z : 0"}]}
