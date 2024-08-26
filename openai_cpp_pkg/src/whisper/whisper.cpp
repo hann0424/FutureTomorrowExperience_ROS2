@@ -76,5 +76,5 @@ void Whisper::openai_whisper()
     )"_json);
 
     _question_msg = transcription["text"];
-    RCLCPP_INFO(get_logger(), "음성 질문 : %s", _question_msg);
+    RCLCPP_INFO(get_logger(), "음성 질문 : %s", _question_msg.c_str());
 }

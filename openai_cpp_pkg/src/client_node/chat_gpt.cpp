@@ -18,7 +18,7 @@ void Gpt::callback(const openai_interface::srv::QaInterface::Request::SharedPtr 
     openai_interface::srv::QaInterface::Response::SharedPtr response)
 {
 
-    egpt(request->question);
+    gpt(request->question);
 
     std::string keyword = "movemnt";
     std::string str= _answer;
@@ -58,7 +58,7 @@ void Gpt::gpt(const std::string str)
 {
     nlohmann::json jsonObj = R"(
     {
-        "model": "ft:gpt-3.5-turbo-0125:personal::9zdOzGwC",
+        "model": "ft:gpt-3.5-turbo-0125:personal::A0HYXmGw",
         "max_tokens": 1000,
         "temperature": 0
     }
@@ -66,10 +66,7 @@ void Gpt::gpt(const std::string str)
 
     jsonObj["messages"].push_back({
         {"role", "system"},
-        {"content", _content}
-    });
-
-    jsonObj["messages"].push_back({
+        {"content", _content},
         {"role", "user"},
         {"content", str}
     });
