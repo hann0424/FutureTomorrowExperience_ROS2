@@ -36,56 +36,67 @@ void Mic::response_callback(rclcpp::Client<openai_interface::srv::QaInterface>::
 
 void Mic::record_audio()
 {
-    const int sample_rate = 44100;  // 44.1kHz
-    const int channels = 1;  // 모노
-    const int bits_per_sample = 16;  // 16비트 오디오
-    const int duration_in_seconds = 5;  // 5초간 녹음
-    const char* wav_filename = "/home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/openai_cpp_pkg/audio/question.mp3";
-    int frames_per_buffer = 32;
+    char ch = ' ';
+    while (ch != 'q') {
+        if (ch == ' ') {
+            ch = getchar();
+        }
+        if (ch == 'r') {
+            const int sample_rate = 44100;  // 44.1kHz
+            const int channels = 1;  // 모노
+            const int bits_per_sample = 16;  // 16비트 오디오
+            const int duration_in_seconds = 5;  // 5초간 녹음
+            const char* wav_filename = "/home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/openai_cpp_pkg/audio/question.mp3";
+            int frames_per_buffer = 32;
 
-    // ALSA 초기화
-    snd_pcm_t *capture_handle;
-    snd_pcm_hw_params_t *hw_params;
+            // ALSA 초기화
+            snd_pcm_t *capture_handle;
+            snd_pcm_hw_params_t *hw_params;
 
-    if (snd_pcm_open(&capture_handle, "default", SND_PCM_STREAM_CAPTURE, 0) < 0) {
-        std::cerr << "Error opening PCM device." << std::endl;
-        return;
+            if (snd_pcm_open(&capture_handle, "default", SND_PCM_STREAM_CAPTURE, 0) < 0) {
+                std::cerr << "Error opening PCM device." << std::endl;
+                return;
+            }
+
+            snd_pcm_hw_params_malloc(&hw_params);
+            snd_pcm_hw_params_any(capture_handle, hw_params);
+            snd_pcm_hw_params_set_access(capture_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED);
+            snd_pcm_hw_params_set_format(capture_handle, hw_params, SND_PCM_FORMAT_S16_LE);
+            snd_pcm_hw_params_set_rate_near(capture_handle, hw_params, (unsigned int*)&sample_rate, 0);
+            snd_pcm_hw_params_set_channels(capture_handle, hw_params, channels);
+            snd_pcm_hw_params(capture_handle, hw_params);
+            snd_pcm_hw_params_free(hw_params);
+
+            if (snd_pcm_prepare(capture_handle) < 0) {
+                std::cerr << "Error preparing PCM device." << std::endl;
+                return;
+            }
+
+            // WAV 파일 열기
+            std::ofstream wav_file(wav_filename, std::ios::binary);
+            int data_size = duration_in_seconds * sample_rate * channels * bits_per_sample / 8;
+            write_wav_header(wav_file, sample_rate, bits_per_sample, channels, data_size);
+
+            // 녹음 시작
+            char *buffer = new char[frames_per_buffer * channels * bits_per_sample / 8];
+            for (int i = 0; i < duration_in_seconds * (sample_rate / frames_per_buffer); ++i) {
+                snd_pcm_readi(capture_handle, buffer, frames_per_buffer);
+                wav_file.write(buffer, frames_per_buffer * channels * bits_per_sample / 8);
+            }
+
+            // 마무리
+            delete[] buffer;
+            wav_file.close();
+            snd_pcm_close(capture_handle);
+
+            std::cout << "Recording complete. Saved to " << wav_filename << std::endl;
+            ch = ' ';
+            send_request();
+        }
+        else if(ch == 'q') {
+            break;
+        }
     }
-
-    snd_pcm_hw_params_malloc(&hw_params);
-    snd_pcm_hw_params_any(capture_handle, hw_params);
-    snd_pcm_hw_params_set_access(capture_handle, hw_params, SND_PCM_ACCESS_RW_INTERLEAVED);
-    snd_pcm_hw_params_set_format(capture_handle, hw_params, SND_PCM_FORMAT_S16_LE);
-    snd_pcm_hw_params_set_rate_near(capture_handle, hw_params, (unsigned int*)&sample_rate, 0);
-    snd_pcm_hw_params_set_channels(capture_handle, hw_params, channels);
-    snd_pcm_hw_params(capture_handle, hw_params);
-    snd_pcm_hw_params_free(hw_params);
-
-    if (snd_pcm_prepare(capture_handle) < 0) {
-        std::cerr << "Error preparing PCM device." << std::endl;
-        return;
-    }
-
-    // WAV 파일 열기
-    std::ofstream wav_file(wav_filename, std::ios::binary);
-    int data_size = duration_in_seconds * sample_rate * channels * bits_per_sample / 8;
-    write_wav_header(wav_file, sample_rate, bits_per_sample, channels, data_size);
-
-    // 녹음 시작
-    char *buffer = new char[frames_per_buffer * channels * bits_per_sample / 8];
-    for (int i = 0; i < duration_in_seconds * (sample_rate / frames_per_buffer); ++i) {
-        snd_pcm_readi(capture_handle, buffer, frames_per_buffer);
-        wav_file.write(buffer, frames_per_buffer * channels * bits_per_sample / 8);
-    }
-
-    // 마무리
-    delete[] buffer;
-    wav_file.close();
-    snd_pcm_close(capture_handle);
-
-    std::cout << "Recording complete. Saved to " << wav_filename << std::endl;
-
-    send_request();
 }
 
 void Mic::write_wav_header(std::ofstream &file, int sample_rate, int bits_per_sample, int channels, int data_size)
@@ -107,6 +118,27 @@ void Mic::write_wav_header(std::ofstream &file, int sample_rate, int bits_per_sa
     file.write(reinterpret_cast<const char*>(&bits_per_sample), 2);  // BitsPerSample
     file << "data";  // Subchunk2ID
     file.write(reinterpret_cast<const char*>(&data_size), 4);  // Subchunk2Size
+}
+
+void Mic::set_nonblocking_input() {
+    termios t;
+    tcgetattr(STDIN_FILENO, &t);
+    t.c_lflag &= ~ICANON;  // 비캐논 모드로 설정
+    t.c_lflag &= ~ECHO;    // 입력을 화면에 표시하지 않음
+    tcsetattr(STDIN_FILENO, TCSANOW, &t);
+
+    // 파일 디스크립터를 비차단 모드로 설정
+    int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
+}
+
+// 원래 터미널 설정 복원
+void Mic::reset_terminal_input() {
+    termios t;
+    tcgetattr(STDIN_FILENO, &t);
+    t.c_lflag |= ICANON;  // 캐논 모드로 복원
+    t.c_lflag |= ECHO;    // 입력을 화면에 표시
+    tcsetattr(STDIN_FILENO, TCSANOW, &t);
 }
 
 int main(int argc, char *argv[])
