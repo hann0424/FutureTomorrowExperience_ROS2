@@ -20,7 +20,7 @@ void Gpt::callback(const openai_interface::srv::QaInterface::Request::SharedPtr 
 
     gpt(request->question);
 
-    std::string keyword = "movemnt";
+    std::string keyword = "movement";
     std::string str= _answer;
 
     if (str.find(keyword) != std::string::npos) {
@@ -58,7 +58,7 @@ void Gpt::gpt(const std::string str)
 {
     nlohmann::json jsonObj = R"(
     {
-        "model": "ft:gpt-3.5-turbo-0125:personal::9zdOzGwC",
+        "model": "ft:gpt-3.5-turbo-0125:personal::A0HYXmGw",
         "max_tokens": 1000,
         "temperature": 0
     }

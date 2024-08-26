@@ -45,41 +45,41 @@ try :
 
         time.sleep(10)
 
-    completion = client.chat.completions.create(
-    model=fine_tuned_model_id,
-    messages=[
-        {"role": "system", "content": content},
-        {"role": "user", "content": "안녕"}
-    ]
-    )
-    print(completion.choices[0].message)
+    # completion = client.chat.completions.create(
+    # model=fine_tuned_model_id,
+    # messages=[
+    #     {"role": "system", "content": content},
+    #     {"role": "user", "content": "안녕"}
+    # ]
+    # )
+    # print(completion.choices[0].message)
 
-    completion = client.chat.completions.create(
-    model=fine_tuned_model_id,
-    messages=[
-        {"role": "system", "content": "Marv is a chatbot that helps control robot movement."},
-        {"role": "user", "content": "앞으로 가"}
-    ]
-    )
-    print(completion.choices[0].message)
+    # completion = client.chat.completions.create(
+    # model=fine_tuned_model_id,
+    # messages=[
+    #     {"role": "system", "content": "Marv is a chatbot that helps control robot movement."},
+    #     {"role": "user", "content": "앞으로 가"}
+    # ]
+    # )
+    # print(completion.choices[0].message)
 
-    completion = client.chat.completions.create(
-    model=fine_tuned_model_id,
-    messages=[
-        {"role": "system", "content": "Marv is a chatbot that helps control robot movement."},
-        {"role": "user", "content": "멈춰"}
-    ]
-    )
-    print(completion.choices[0].message)
+    # completion = client.chat.completions.create(
+    # model=fine_tuned_model_id,
+    # messages=[
+    #     {"role": "system", "content": "Marv is a chatbot that helps control robot movement."},
+    #     {"role": "user", "content": "멈춰"}
+    # ]
+    # )
+    # print(completion.choices[0].message)
 
-    completion = client.chat.completions.create(
-    model=fine_tuned_model_id,
-    messages=[
-        {"role": "system", "content": content},
-        {"role": "user", "content": "오늘 기분 어때?"}
-    ]
-    )
-    print(completion.choices[0].message)
+    # completion = client.chat.completions.create(
+    # model=fine_tuned_model_id,
+    # messages=[
+    #     {"role": "system", "content": content},
+    #     {"role": "user", "content": "오늘 기분 어때?"}
+    # ]
+    # )
+    # print(completion.choices[0].message)
 
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
