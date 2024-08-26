@@ -20,7 +20,7 @@ void Gpt::callback(const openai_interface::srv::QaInterface::Request::SharedPtr 
 
     gpt(request->question);
 
-    std::string keyword = "movemnt";
+    std::string keyword = "movement";
     std::string str= _answer;
 
     if (str.find(keyword) != std::string::npos) {
