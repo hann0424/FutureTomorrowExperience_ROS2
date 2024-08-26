@@ -65,10 +65,7 @@ void Gpt::gpt(const std::string str)
 
     jsonObj["messages"].push_back({
         {"role", "system"},
-        {"content", _content}
-    });
-
-    jsonObj["messages"].push_back({
+        {"content", _content},
         {"role", "user"},
         {"content", str}
     });

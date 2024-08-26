@@ -39,7 +39,7 @@ void Mic::record_audio()
     const int sample_rate = 44100;  // 44.1kHz
     const int channels = 1;  // 모노
     const int bits_per_sample = 16;  // 16비트 오디오
-    const int duration_in_seconds = 10;  // 5초간 녹음
+    const int duration_in_seconds = 5;  // 5초간 녹음
     const char* wav_filename = "/home/ubuntu/robot_ws/src/FutureTomorrowExperience_ROS2/openai_cpp_pkg/audio/question.mp3";
     int frames_per_buffer = 32;
 
